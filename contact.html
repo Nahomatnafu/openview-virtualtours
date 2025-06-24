@@ -1,13 +1,13 @@
-<!DOCTYPE html><!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Tue Jun 24 2025 00:29:50 GMT+0000 (Coordinated Universal Time)  -->
+<!DOCTYPE html><!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Tue Jun 24 2025 01:05:50 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="6855ff6aecb6d8e0a927ccda" data-wf-site="6855ff69ecb6d8e0a927cc79">
 <head>
   <meta charset="utf-8">
-  <title>Contact Mankato 360 Virtual Tours | Your Local 360° Virtual Tour Provider</title>
-  <meta content="Reach out to Mankato 360 Virtual Tours for fast, affordable, and high-quality 360° virtual tours for real estate in Mankato, Minnesota." name="description">
-  <meta content="Contact Mankato 360 Virtual Tours | Your Local 360° Virtual Tour Provider" property="og:title">
-  <meta content="Reach out to Mankato 360 Virtual Tours for fast, affordable, and high-quality 360° virtual tours for real estate in Mankato, Minnesota." property="og:description">
-  <meta content="Contact Mankato 360 Virtual Tours | Your Local 360° Virtual Tour Provider" property="twitter:title">
-  <meta content="Reach out to Mankato 360 Virtual Tours for fast, affordable, and high-quality 360° virtual tours for real estate in Mankato, Minnesota." property="twitter:description">
+  <title>Contact OpenView Virtual Tours | Your Local 360° Virtual Tour Provider</title>
+  <meta content="Reach out to OpenView Virtual Tours for fast, affordable, and high-quality 360° virtual tours for real estate in Mankato, Minnesota." name="description">
+  <meta content="Contact OpenView Virtual Tours | Your Local 360° Virtual Tour Provider" property="og:title">
+  <meta content="Reach out to OpenView Virtual Tours for fast, affordable, and high-quality 360° virtual tours for real estate in Mankato, Minnesota." property="og:description">
+  <meta content="Contact OpenView Virtual Tours | Your Local 360° Virtual Tour Provider" property="twitter:title">
+  <meta content="Reach out to OpenView Virtual Tours for fast, affordable, and high-quality 360° virtual tours for real estate in Mankato, Minnesota." property="twitter:description">
   <meta property="og:type" content="website">
   <meta content="summary_large_image" name="twitter:card">
   <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -229,22 +229,26 @@
       <div class="w-embed w-script"><!--  Calendly Referral Tracking Embed  -->
         <div id="calendly-container"></div>
         <script type="text/javascript">
-  // Get ?ref=YourCode from the URL (e.g., ?ref=JohnDoe)
+  // Get ?ref=JohnDoe and store it in localStorage
   const urlParams = new URLSearchParams(window.location.search);
-  const refCode = urlParams.get('ref');
-  // Use your actual Calendly link and append utm_campaign if ref is present
+  const refCodeFromURL = urlParams.get('ref');
+  if (refCodeFromURL) {
+    localStorage.setItem('refCode', refCodeFromURL);
+  }
+  // Get the saved referral code
+  const refCode = localStorage.getItem('refCode');
+  // Build Calendly URL
   const calendlyBase = "https://calendly.com/nahomg116/30min";
   const calendlyUrl = refCode
     ? `${calendlyBase}?utm_campaign=${encodeURIComponent(refCode)}`
     : calendlyBase;
-  // Embed Calendly inline widget
+  // Embed Calendly
   const widgetDiv = document.createElement('div');
   widgetDiv.className = 'calendly-inline-widget';
   widgetDiv.setAttribute('data-url', calendlyUrl);
   widgetDiv.style.minWidth = '320px';
   widgetDiv.style.height = '700px';
   document.getElementById('calendly-container').appendChild(widgetDiv);
-  // Load Calendly script
   const script = document.createElement('script');
   script.src = 'https://assets.calendly.com/assets/external/widget.js';
   script.async = true;
