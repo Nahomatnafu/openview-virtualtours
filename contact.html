@@ -239,10 +239,10 @@
   // Step 2: Retrieve refCode from localStorage
   const refCode = localStorage.getItem('refCode');
 
-  // Step 3: Build Calendly URL with utm_campaign if refCode exists
+  // Step 3: Build Calendly URL with prefilled custom question and event name
   const calendlyBase = "https://calendly.com/nahomg116/30min";
   const calendlyUrl = refCode
-    ? `${calendlyBase}?utm_campaign=${encodeURIComponent(refCode)}`
+    ? `${calendlyBase}?name=&email=&a1=${encodeURIComponent(refCode)}&text=Virtual+Tour+Booking+(Ref:+${encodeURIComponent(refCode)})`
     : calendlyBase;
 
   // Step 4: Create Calendly widget with the URL
@@ -393,4 +393,6 @@
   <script src="js/webflow.js" type="text/javascript"></script>
 </body>
 </html>
+
+
 
