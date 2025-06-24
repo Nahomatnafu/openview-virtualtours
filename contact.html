@@ -226,29 +226,34 @@
   </section>
   <section>
     <div class="w-layout-blockcontainer w-container">
-      <div class="w-embed w-script"><!--  Calendly Referral Tracking Embed  -->
+      <div class="w-embed w-script"><!-- Calendly Embed with Persistent Referral Tracking -->
         <div id="calendly-container"></div>
         <script type="text/javascript">
-  // Get ?ref=JohnDoe and store it in localStorage
+  // Step 1: Store ref=JohnDoe in localStorage if it's present in URL
   const urlParams = new URLSearchParams(window.location.search);
-  const refCodeFromURL = urlParams.get('ref');
-  if (refCodeFromURL) {
-    localStorage.setItem('refCode', refCodeFromURL);
+  const refFromURL = urlParams.get('ref');
+  if (refFromURL) {
+    localStorage.setItem('refCode', refFromURL);
   }
-  // Get the saved referral code
+
+  // Step 2: Retrieve refCode from localStorage
   const refCode = localStorage.getItem('refCode');
-  // Build Calendly URL
+
+  // Step 3: Build Calendly URL with utm_campaign if refCode exists
   const calendlyBase = "https://calendly.com/nahomg116/30min";
   const calendlyUrl = refCode
     ? `${calendlyBase}?utm_campaign=${encodeURIComponent(refCode)}`
     : calendlyBase;
-  // Embed Calendly
+
+  // Step 4: Create Calendly widget with the URL
   const widgetDiv = document.createElement('div');
   widgetDiv.className = 'calendly-inline-widget';
   widgetDiv.setAttribute('data-url', calendlyUrl);
   widgetDiv.style.minWidth = '320px';
   widgetDiv.style.height = '700px';
   document.getElementById('calendly-container').appendChild(widgetDiv);
+
+  // Step 5: Load Calendly's external script
   const script = document.createElement('script');
   script.src = 'https://assets.calendly.com/assets/external/widget.js';
   script.async = true;
@@ -388,3 +393,4 @@
   <script src="js/webflow.js" type="text/javascript"></script>
 </body>
 </html>
+
