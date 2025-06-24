@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Sun Jun 22 2025 23:27:42 GMT+0000 (Coordinated Universal Time)  -->
+<!DOCTYPE html><!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Tue Jun 24 2025 00:29:50 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="6855ff6aecb6d8e0a927ccda" data-wf-site="6855ff69ecb6d8e0a927cc79">
 <head>
   <meta charset="utf-8">
@@ -226,10 +226,30 @@
   </section>
   <section>
     <div class="w-layout-blockcontainer w-container">
-      <div class="w-embed w-script"><!--  Calendly inline widget begin  -->
-        <div class="calendly-inline-widget" data-url="https://calendly.com/nahomg116/30min" style="min-width:320px;height:700px;"></div>
-        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async=""></script>
-        <!--  Calendly inline widget end  -->
+      <div class="w-embed w-script"><!--  Calendly Referral Tracking Embed  -->
+        <div id="calendly-container"></div>
+        <script type="text/javascript">
+  // Get ?ref=YourCode from the URL (e.g., ?ref=JohnDoe)
+  const urlParams = new URLSearchParams(window.location.search);
+  const refCode = urlParams.get('ref');
+  // Use your actual Calendly link and append utm_campaign if ref is present
+  const calendlyBase = "https://calendly.com/nahomg116/30min";
+  const calendlyUrl = refCode
+    ? `${calendlyBase}?utm_campaign=${encodeURIComponent(refCode)}`
+    : calendlyBase;
+  // Embed Calendly inline widget
+  const widgetDiv = document.createElement('div');
+  widgetDiv.className = 'calendly-inline-widget';
+  widgetDiv.setAttribute('data-url', calendlyUrl);
+  widgetDiv.style.minWidth = '320px';
+  widgetDiv.style.height = '700px';
+  document.getElementById('calendly-container').appendChild(widgetDiv);
+  // Load Calendly script
+  const script = document.createElement('script');
+  script.src = 'https://assets.calendly.com/assets/external/widget.js';
+  script.async = true;
+  document.body.appendChild(script);
+</script>
       </div>
     </div>
   </section>
@@ -305,7 +325,7 @@
               </a>
             </li>
             <li>
-              <a href="#pricing-section" class="footer-link w-inline-block">
+              <a href="https://openviewhomes.com/#pricing-section" class="footer-link w-inline-block">
                 <div>Pricing</div>
               </a>
             </li>
