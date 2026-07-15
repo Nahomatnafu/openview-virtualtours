@@ -81,42 +81,80 @@
     });
   }
 
-  /* ---------- Portfolio: click-to-load Kuula facade (demos page) ----------
+  /* ---------- Tour lightbox (demos page) ----------
      Posters are plain links to Kuula (the no-JS fallback). JS upgrades them:
-     clicking mounts the live iframe in place, inside a fixed-aspect container
-     so there is zero layout shift. Only one live tour at a time — opening
-     another unmounts the previous and restores its poster, so filtering
-     never has to re-order live iframes. */
-  var activeTour = null; // { media, loadLink }
+     clicking opens a full-viewport overlay and mounts the embed inside it.
+     Deliberately NOT the Fullscreen API — iOS Safari doesn't support
+     requestFullscreen() on arbitrary elements, and most traffic is phones.
+     One tour at a time; the embed is destroyed on close. */
+  var lightbox = document.getElementById('tour-lightbox');
+  if (lightbox) {
+    var lightboxMedia = lightbox.querySelector('[data-lightbox-media]');
+    var closeBtn = lightbox.querySelector('.lightbox-close');
+    var lastTrigger = null;
 
-  document.querySelectorAll('a.tour-load[data-tour-url]').forEach(function (loadLink) {
-    loadLink.addEventListener('click', function (event) {
-      event.preventDefault();
-
-      var media = loadLink.closest('.tour-media');
-      if (!media) return;
-
-      if (activeTour) {
-        var oldIframe = activeTour.media.querySelector('iframe');
-        if (oldIframe) oldIframe.remove();
-        activeTour.loadLink.hidden = false;
+    var onLightboxKeydown = function (e) {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        return;
       }
+      if (e.key !== 'Tab') return;
+      // Trap focus between the close button and the tour iframe
+      var focusables = [closeBtn, lightboxMedia.querySelector('iframe')].filter(Boolean);
+      var first = focusables[0];
+      var last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      } else if (!lightbox.contains(document.activeElement)) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
 
+    var openLightbox = function (url, title, trigger) {
       var iframe = document.createElement('iframe');
-      iframe.src = loadLink.getAttribute('data-tour-url');
-      iframe.title = loadLink.getAttribute('data-tour-title') || '360° virtual tour';
+      iframe.src = url;
+      iframe.title = title || '360° virtual tour';
       iframe.setAttribute('allow', 'xr-spatial-tracking; gyroscope; accelerometer; fullscreen');
       iframe.setAttribute('allowfullscreen', '');
-      media.appendChild(iframe);
+      lightboxMedia.appendChild(iframe);
 
-      loadLink.hidden = true;
-      activeTour = { media: media, loadLink: loadLink };
+      lightbox.hidden = false;
+      document.body.classList.add('no-scroll');
+      lastTrigger = trigger;
+      closeBtn.focus();
+      document.addEventListener('keydown', onLightboxKeydown);
+    };
+
+    var closeLightbox = function () {
+      lightboxMedia.innerHTML = ''; // destroy the embed so a closed tour isn't running in the background
+      lightbox.hidden = true;
+      document.body.classList.remove('no-scroll');
+      document.removeEventListener('keydown', onLightboxKeydown);
+      if (lastTrigger) lastTrigger.focus();
+      lastTrigger = null;
+    };
+
+    document.querySelectorAll('a.tour-load[data-tour-url]').forEach(function (link) {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        openLightbox(link.getAttribute('data-tour-url'), link.getAttribute('data-tour-title'), link);
+      });
     });
-  });
+
+    lightbox.querySelectorAll('[data-lightbox-close]').forEach(function (el) {
+      el.addEventListener('click', closeLightbox);
+    });
+  }
 
   /* ---------- Hero reveal — the one orchestrated GSAP moment (homepage) ----------
-     Horizon draws across, tour frame opens up from the line, copy rises in.
-     GSAP is progressive enhancement: content is fully visible without it. */
+     The horizon draws across, then the tour frame descends through it —
+     motion that explains the signature. GSAP is progressive enhancement:
+     content is fully visible without it. */
   var hero = document.querySelector('[data-hero-reveal]');
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -125,11 +163,11 @@
     tl.from(hero.querySelectorAll('.hero-copy > *'), {
         y: 24, autoAlpha: 0, duration: 0.6, stagger: 0.09
       })
-      .from(hero.querySelector('.hero-tour-wrap .horizon'), {
+      .from(hero.querySelector('.hero-crossing .horizon'), {
         scaleX: 0, transformOrigin: 'left center', duration: 0.5
       }, '-=0.3')
       .from(hero.querySelector('.tour-frame'), {
-        scaleY: 0, transformOrigin: 'top center', duration: 0.65
+        y: -44, autoAlpha: 0, duration: 0.65
       }, '-=0.1')
       .from(hero.querySelector('.drag-hint'), {
         autoAlpha: 0, y: 8, duration: 0.4

@@ -1,14 +1,16 @@
-/* OpenView Virtual Tours — hand-authored styles
-   Palette: Ink #152430 · Daylight #F6F8F9 · Slate #5A6B78 · Horizon Gold #E8A33D · Line #D9DFE4
+/* OpenView Virtual Tours — hand-authored styles (design v2: "the tour crosses the horizon")
+   Palette: Night #0E1B24 · Ink #152430 · Daylight #F6F8F9 · Mist #A7B7C2 · Slate #5A6B78 · Horizon Gold #E8A33D
    Type:    Bricolage Grotesque (display) · Instrument Sans (body/UI)
-   Signature: the horizon line — a 2px gold datum that structures the page. */
+   Structure: dark (Night) and light (Daylight) zones; every transition happens on the gold
+   horizon seam, and key objects (hero tour, pricing card, Calendly card) cross it. */
 
 :root {
+  --night: #0E1B24;
   --ink: #152430;
   --daylight: #F6F8F9;
+  --mist: #A7B7C2;
   --slate: #5A6B78;
   --gold: #E8A33D;
-  --line: #D9DFE4;
   --white: #FFFFFF;
 
   --font-display: "Bricolage Grotesque", system-ui, sans-serif;
@@ -18,6 +20,7 @@
   --radius-btn: 6px;
   --container: 68.75rem; /* 1100px */
   --space-section: clamp(3.5rem, 9vw, 6.5rem);
+  --shadow-crossing: 0 14px 34px rgba(14, 27, 36, 0.22); /* only for objects crossing the seam */
 }
 
 /* ---------- Reset ---------- */
@@ -31,6 +34,7 @@ body {
   color: var(--ink);
   background: var(--daylight);
 }
+body.no-scroll { overflow: hidden; }
 img, picture, svg, iframe { display: block; max-width: 100%; }
 input, button, textarea, select { font: inherit; }
 ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
@@ -46,11 +50,10 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
 }
 
 /* ---------- Type ---------- */
-h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 700; letter-spacing: -0.01em; }
-h1 { font-size: clamp(2.125rem, 5vw + 0.75rem, 3.5rem); }
-h2 { font-size: clamp(1.625rem, 3vw + 0.75rem, 2.375rem); }
-h3 { font-size: 1.1875rem; font-weight: 600; }
-p { margin-bottom: 0; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.08; font-weight: 700; letter-spacing: -0.015em; }
+h1 { font-size: clamp(2.5rem, 4vw + 1.25rem, 4.25rem); }
+h2 { font-size: clamp(1.75rem, 2.5vw + 1rem, 2.75rem); }
+h3 { font-size: 1.1875rem; font-weight: 600; line-height: 1.3; }
 
 .eyebrow {
   font-size: 0.8125rem;
@@ -63,13 +66,48 @@ p { margin-bottom: 0; }
 .lede { font-size: clamp(1.0625rem, 1vw + 0.85rem, 1.25rem); color: var(--slate); max-width: 38rem; }
 .text-secondary { color: var(--slate); }
 
+/* Oversized display numerals — the scale-contrast device */
+.num-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 3vw + 1.5rem, 3.5rem);
+  line-height: 1;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+/* ---------- Zones ---------- */
+.zone-night { background: var(--night); color: var(--daylight); }
+.zone-night .lede { color: var(--mist); }
+.zone-night .text-secondary { color: var(--mist); }
+
+/* The horizon — 2px gold seam */
+.horizon { border: 0; height: 2px; background: var(--gold); width: 100%; }
+
+/* A crossing: light block whose top region is still Night, with the seam at the
+   boundary. Content inside straddles the two zones. Depth of the Night region is
+   tunable per use via --crossing-depth. */
+.crossing { position: relative; background: var(--daylight); }
+.crossing::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: var(--crossing-depth, 50%);
+  background: var(--night);
+}
+.crossing > .horizon {
+  position: absolute;
+  top: var(--crossing-depth, 50%);
+  left: 0;
+  margin: 0;
+  z-index: 1;
+}
+.crossing > .container { position: relative; z-index: 2; }
+
 /* ---------- Layout ---------- */
 .container { max-width: var(--container); margin-inline: auto; padding-inline: 1.25rem; }
 .section { padding-block: var(--space-section); }
-.section-head { max-width: 40rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
-
-/* The horizon line — full-bleed gold datum */
-.horizon { border: 0; height: 2px; background: var(--gold); width: 100%; }
+.section-head { max-width: 42rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
 
 /* ---------- Focus ---------- */
 :focus-visible {
@@ -81,28 +119,34 @@ p { margin-bottom: 0; }
 /* ---------- Buttons ---------- */
 .btn {
   display: inline-block;
-  padding: 0.75rem 1.5rem;
+  padding: 0.8rem 1.6rem;
   border-radius: var(--radius-btn);
   border: 1.5px solid var(--ink);
   font-weight: 600;
   font-size: 1rem;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 160ms ease, color 160ms ease;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
 }
 .btn-primary { background: var(--ink); color: var(--white); }
 .btn-primary:hover { background: #24384a; border-color: #24384a; }
 .btn-ghost { background: transparent; color: var(--ink); }
 .btn-ghost:hover { background: rgba(21, 36, 48, 0.07); }
+/* On Night zones the primary button inverts so it carries the light */
+.zone-night .btn-primary { background: var(--daylight); color: var(--ink); border-color: var(--daylight); }
+.zone-night .btn-primary:hover { background: var(--white); border-color: var(--white); }
+.zone-night .btn-ghost { color: var(--daylight); border-color: var(--mist); }
+.zone-night .btn-ghost:hover { background: rgba(246, 248, 249, 0.1); }
 
-/* ---------- Header / nav ---------- */
+/* ---------- Header / nav (lives on Night) ---------- */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(246, 248, 249, 0.92);
+  background: rgba(14, 27, 36, 0.92);
   backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid rgba(167, 183, 194, 0.16);
+  color: var(--daylight);
 }
 .nav-bar {
   display: flex;
@@ -116,7 +160,7 @@ p { margin-bottom: 0; }
   align-items: center;
   gap: 0.55rem;
   text-decoration: none;
-  color: var(--ink);
+  color: var(--daylight);
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 1.125rem;
@@ -125,13 +169,14 @@ p { margin-bottom: 0; }
 .nav-links { display: flex; align-items: center; gap: 1.75rem; }
 .nav-links a:not(.btn) {
   text-decoration: none;
-  color: var(--ink);
+  color: var(--daylight);
   font-weight: 500;
   font-size: 0.9375rem;
 }
 .nav-links a:not(.btn):hover { color: var(--gold); }
 .nav-links a[aria-current="page"]:not(.btn) { color: var(--gold); }
-.nav-links .btn { padding: 0.5rem 1.125rem; font-size: 0.9375rem; }
+.nav-links .btn { padding: 0.5rem 1.125rem; font-size: 0.9375rem; background: var(--daylight); color: var(--ink); border-color: var(--daylight); }
+.nav-links .btn:hover { background: var(--white); border-color: var(--white); }
 
 .nav-toggle {
   display: none;
@@ -139,7 +184,7 @@ p { margin-bottom: 0; }
   border: 0;
   padding: 0.5rem;
   cursor: pointer;
-  color: var(--ink);
+  color: var(--daylight);
 }
 .nav-toggle svg { width: 1.5rem; height: 1.5rem; }
 
@@ -154,34 +199,33 @@ p { margin-bottom: 0; }
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    background: var(--daylight);
+    background: var(--night);
     border-bottom: 2px solid var(--gold);
     padding: 0.5rem 1.25rem 1.25rem;
   }
   .nav-links.is-open { display: flex; }
-  .nav-links a:not(.btn) { padding: 0.875rem 0; border-bottom: 1px solid var(--line); }
+  .nav-links a:not(.btn) { padding: 0.875rem 0; border-bottom: 1px solid rgba(167, 183, 194, 0.16); }
   .nav-links .btn { margin-top: 1rem; text-align: center; }
 }
 
-/* ---------- Hero ---------- */
-.hero { padding-block: clamp(2.5rem, 6vw, 5rem) 0; }
-.hero-copy { max-width: 44rem; }
-.hero-copy h1 { margin-bottom: 1rem; }
-.hero-copy .lede { margin-bottom: 1.75rem; }
-.hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: clamp(2rem, 5vw, 3.25rem); }
+/* ---------- Hero (Night) + the signature crossing ---------- */
+.hero { padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(2.25rem, 5vw, 3.5rem); }
+.hero-copy { max-width: 48rem; }
+.hero-copy h1 { margin-bottom: 1.125rem; }
+.hero-copy .lede { margin-bottom: 2rem; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
-/* Tour frame sits ON the horizon line */
-.hero-tour-wrap { position: relative; }
-.hero-tour-wrap .horizon { position: absolute; top: 0; left: 0; width: 100%; }
+.hero-crossing { padding-bottom: clamp(1rem, 3vw, 2rem); }
 .tour-frame {
   position: relative;
-  aspect-ratio: 4 / 3;
-  border-radius: 0 0 var(--radius-card) var(--radius-card);
+  aspect-ratio: 4 / 3; /* phones: a 21/9 frame at 390px is a ~167px drag target — too short */
+  border-radius: var(--radius-card);
   overflow: hidden;
   background: var(--ink);
+  box-shadow: var(--shadow-crossing);
 }
 @media (min-width: 48em) {
-  .tour-frame { aspect-ratio: 16 / 9; }
+  .tour-frame { aspect-ratio: 21 / 9; } /* desktop: cinematic-panoramic, matches the subject */
 }
 .tour-frame iframe { width: 100%; height: 100%; border: 0; }
 
@@ -195,30 +239,48 @@ p { margin-bottom: 0; }
   gap: 0.5rem;
   padding: 0.4rem 0.9rem;
   border-radius: 999px;
-  background: rgba(21, 36, 48, 0.82);
+  background: rgba(14, 27, 36, 0.85);
   color: var(--white);
   font-size: 0.8125rem;
   font-weight: 500;
   white-space: nowrap;
   pointer-events: none;
+  max-width: calc(100% - 1.5rem);
 }
-.drag-hint svg { width: 1rem; height: 1rem; color: var(--gold); }
+.drag-hint svg { width: 1rem; height: 1rem; color: var(--gold); flex-shrink: 0; }
 
-/* ---------- Benefits ---------- */
-.benefits { display: grid; gap: 2rem; }
+/* ---------- Benefits (Daylight) ---------- */
+.benefits { display: grid; gap: 2.5rem; }
 @media (min-width: 48em) { .benefits { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; } }
-.benefit h3 { margin-bottom: 0.5rem; }
+.benefit h3 { margin-bottom: 0.5rem; font-size: 1.3125rem; }
 .benefit p { color: var(--slate); font-size: 1rem; }
-.benefit-num {
-  font-family: var(--font-display);
-  font-weight: 700;
-  color: var(--gold);
-  font-size: 0.9375rem;
-  margin-bottom: 0.625rem;
+/* Staggered baseline on desktop so the row doesn't read as one flat band */
+@media (min-width: 48em) {
+  .benefit:nth-child(2) { transform: translateY(1.75rem); }
+  .benefit:nth-child(3) { transform: translateY(3.5rem); }
+  .benefits { padding-bottom: 3.5rem; }
 }
 
-/* ---------- How it works — steps ride the horizon ---------- */
-.steps { position: relative; display: grid; gap: 2.25rem; padding-left: 1.5rem; }
+/* ---------- Panning panorama band — the page looks around ---------- */
+.pano-band {
+  overflow: hidden;
+  height: 50vw;            /* 2/1 on phones: wide enough to read as a strip, tall enough to read the room */
+  border-top: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+}
+@media (min-width: 48em) { .pano-band { height: 25vw; max-height: 24rem; } } /* ~4/1 panoramic */
+.pano-track {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  animation: pano-pan 70s linear infinite;
+}
+.pano-track img { height: 100%; width: auto; max-width: none; }
+@keyframes pano-pan { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .pano-track { animation: none; } }
+
+/* ---------- How it works — steps ride the horizon (Night) ---------- */
+.steps { position: relative; display: grid; gap: 2.25rem; padding-left: 1.75rem; }
 .steps::before { /* vertical horizon on mobile */
   content: "";
   position: absolute;
@@ -232,61 +294,57 @@ p { margin-bottom: 0; }
 .step::before {
   content: "";
   position: absolute;
-  left: -1.5rem;
-  top: 0.5rem;
+  left: -1.75rem;
+  top: 0.75rem;
   width: 10px;
   height: 10px;
   border-radius: 50%;
   background: var(--gold);
   transform: translateX(-4px);
 }
+.step .num-display { font-size: clamp(1.75rem, 2vw + 1rem, 2.25rem); }
 .step h3 { margin-bottom: 0.375rem; }
-.step p { color: var(--slate); font-size: 1rem; max-width: 26rem; }
+.step p { font-size: 1rem; max-width: 26rem; }
+.zone-night .step p { color: var(--mist); }
+.section:not(.zone-night) .step p { color: var(--slate); }
 
 @media (min-width: 48em) {
-  .steps { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; padding-left: 0; padding-top: 1.75rem; }
-  .steps::before { /* horizontal horizon on desktop */
-    left: 0; right: 0; top: 0; bottom: auto; width: auto; height: 2px;
-  }
-  .step::before { left: 0; top: -1.75rem; transform: translateY(-4px); }
+  .steps { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; padding-left: 0; padding-top: 2rem; }
+  .steps::before { left: 0; right: 0; top: 0; bottom: auto; width: auto; height: 2px; }
+  .step::before { left: 0; top: -2rem; transform: translateY(-4px); }
 }
 
-/* ---------- Panoramic band ---------- */
-.pano-band { width: 100%; }
-.pano-band img {
-  width: 100%;
-  aspect-ratio: 5 / 2;
-  object-fit: cover;
-}
-@media (min-width: 48em) {
-  .pano-band img { aspect-ratio: 5 / 1; }
-}
-
-/* ---------- Pricing ---------- */
+/* ---------- Pricing (crosses Night → Daylight) ---------- */
 .pricing-card {
   background: var(--white);
-  border: 1px solid var(--line);
+  border: 1px solid rgba(90, 107, 120, 0.18);
   border-top: 2px solid var(--gold);
   border-radius: var(--radius-card);
   padding: clamp(1.75rem, 4vw, 3rem);
   max-width: 44rem;
+  margin-inline: auto;
+  box-shadow: var(--shadow-crossing);
 }
 .price {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2.25rem, 5vw, 3.25rem);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
   line-height: 1;
 }
-.price-note { color: var(--slate); margin-top: 0.375rem; }
+.price-note { color: var(--slate); margin-top: 0.5rem; }
 .includes { display: grid; gap: 0.625rem; margin-block: 1.75rem; }
 @media (min-width: 34em) { .includes { grid-template-columns: 1fr 1fr; } }
 .includes li { display: flex; gap: 0.6rem; align-items: baseline; font-size: 1rem; }
 .includes li::before { content: "—"; color: var(--gold); font-weight: 700; flex-shrink: 0; }
 .pricing-fineprint { color: var(--slate); font-size: 0.9375rem; margin-bottom: 1.5rem; }
 
-/* ---------- FAQ ---------- */
-.faq-list { max-width: 44rem; }
-.faq-list details { border-bottom: 1px solid var(--line); }
+/* ---------- FAQ (Daylight, quiet; two-column on desktop) ---------- */
+.faq-grid { display: grid; gap: 1rem; }
+@media (min-width: 48em) {
+  .faq-grid { grid-template-columns: 1fr 2fr; gap: 4rem; }
+  .faq-grid .section-head { margin-bottom: 0; }
+}
+.faq-list details { border-bottom: 1px solid rgba(90, 107, 120, 0.25); }
 .faq-list summary {
   display: flex;
   justify-content: space-between;
@@ -310,50 +368,48 @@ p { margin-bottom: 0; }
 .faq-list details[open] summary::after { content: "–"; }
 .faq-list details p { padding-bottom: 1.25rem; color: var(--slate); max-width: 38rem; }
 
-/* ---------- Closing CTA ---------- */
+/* ---------- Closing zone: CTA + footer merged under one final seam ---------- */
+.closing { border-top: 2px solid var(--gold); }
 .cta-final { text-align: center; }
 .cta-final h2 { margin-bottom: 0.75rem; }
-.cta-final .lede { margin-inline: auto; margin-bottom: 1.75rem; }
+.cta-final .lede { margin-inline: auto; margin-bottom: 2rem; }
 
-/* ---------- Footer ---------- */
-.site-footer {
-  background: var(--ink);
-  color: var(--daylight);
-  border-top: 2px solid var(--gold); /* the horizon closes the page */
-  padding-block: clamp(2.5rem, 6vw, 4rem) 1.5rem;
-  margin-top: var(--space-section);
-}
+.site-footer { padding-block: clamp(2rem, 5vw, 3rem) 1.5rem; }
 .footer-grid { display: grid; gap: 2rem; margin-bottom: 2.5rem; }
 @media (min-width: 48em) { .footer-grid { grid-template-columns: 2fr 1fr 1fr; } }
 .footer-brand { display: flex; align-items: center; gap: 0.55rem; font-family: var(--font-display); font-weight: 600; font-size: 1.0625rem; color: var(--white); text-decoration: none; }
 .footer-brand svg { width: 1.625rem; height: 1.625rem; }
-.footer-tag { color: #9FB0BC; font-size: 0.9375rem; margin-top: 0.75rem; max-width: 20rem; }
-.footer-col h2 { font-size: 0.8125rem; font-family: var(--font-body); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #9FB0BC; margin-bottom: 0.875rem; }
+.footer-tag { color: var(--mist); font-size: 0.9375rem; margin-top: 0.75rem; max-width: 20rem; }
+.footer-col h2 { font-size: 0.8125rem; font-family: var(--font-body); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--mist); margin-bottom: 0.875rem; }
 .footer-col ul { display: grid; gap: 0.5rem; }
 .footer-col a { color: var(--daylight); text-decoration: none; font-size: 0.9375rem; }
 .footer-col a:hover { color: var(--gold); }
-.footer-legal { border-top: 1px solid rgba(217, 223, 228, 0.18); padding-top: 1.25rem; font-size: 0.875rem; color: #9FB0BC; }
+.footer-legal { border-top: 1px solid rgba(167, 183, 194, 0.18); padding-top: 1.25rem; font-size: 0.875rem; color: var(--mist); }
 
-/* ---------- Demos: filter + tour grid ---------- */
-.filter-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+/* ---------- Demos: filter chips (on Night head zone) ---------- */
+.filter-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .chip {
   padding: 0.45rem 1rem;
   border-radius: 999px;
-  border: 1.5px solid var(--line);
-  background: var(--white);
-  color: var(--ink);
+  border: 1.5px solid rgba(167, 183, 194, 0.45);
+  background: transparent;
+  color: var(--daylight);
   font-weight: 500;
   font-size: 0.9375rem;
   cursor: pointer;
-  transition: border-color 160ms ease, background-color 160ms ease;
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
 }
 .chip:hover { border-color: var(--gold); }
-.chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--white); }
+.chip[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--night); }
 
+.filter-empty { padding: 2.5rem 0; color: var(--slate); }
+.filter-empty a { color: var(--ink); font-weight: 600; text-decoration-color: var(--gold); text-decoration-thickness: 2px; }
+
+/* ---------- Demos: tour grid (Daylight, featured card crosses the seam) ---------- */
 .tour-grid { display: grid; gap: 1.75rem; }
 @media (min-width: 48em) { .tour-grid { grid-template-columns: 1fr 1fr; } }
-.tour-card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-card); overflow: hidden; }
-.tour-card.is-featured { grid-column: 1 / -1; }
+.tour-card { background: var(--white); border: 1px solid rgba(90, 107, 120, 0.18); border-radius: var(--radius-card); overflow: hidden; }
+.tour-card.is-featured { grid-column: 1 / -1; box-shadow: var(--shadow-crossing); }
 .tour-card[hidden] { display: none; }
 
 .tour-media { position: relative; aspect-ratio: 4 / 3; background: var(--ink); }
@@ -362,13 +418,6 @@ p { margin-bottom: 0; }
   .is-featured .tour-media { aspect-ratio: 21 / 9; }
 }
 .tour-media img { width: 100%; height: 100%; object-fit: cover; }
-.tour-media iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-
-.filter-empty {
-  padding: 2.5rem 0;
-  color: var(--slate);
-}
-.filter-empty a { color: var(--ink); font-weight: 600; text-decoration-color: var(--gold); text-decoration-thickness: 2px; }
 
 .tour-load {
   position: absolute;
@@ -380,7 +429,7 @@ p { margin-bottom: 0; }
   align-items: center;
   justify-content: center;
   gap: 0.625rem;
-  background: rgba(21, 36, 48, 0.35);
+  background: rgba(14, 27, 36, 0.35);
   border: 0;
   cursor: pointer;
   color: var(--white);
@@ -388,7 +437,7 @@ p { margin-bottom: 0; }
   font-size: 1rem;
   transition: background-color 160ms ease;
 }
-.tour-load:hover { background: rgba(21, 36, 48, 0.5); }
+.tour-load:hover { background: rgba(14, 27, 36, 0.55); }
 .tour-load .play-badge {
   display: flex;
   align-items: center;
@@ -397,7 +446,7 @@ p { margin-bottom: 0; }
   height: 3.25rem;
   border-radius: 50%;
   background: var(--gold);
-  color: var(--ink);
+  color: var(--night);
 }
 .tour-load .play-badge svg { width: 1.375rem; height: 1.375rem; }
 
@@ -413,8 +462,85 @@ p { margin-bottom: 0; }
 .tour-caption h3 { margin-bottom: 0.25rem; }
 .tour-caption p { color: var(--slate); font-size: 0.9375rem; }
 
+/* ---------- Tour lightbox — full-viewport overlay (no Fullscreen API) ---------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  height: 100dvh; /* dvh: mobile browser chrome must not crop the tour */
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox[hidden] { display: none; }
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(14, 27, 36, 0.94);
+  border: 0;
+  cursor: pointer;
+}
+/* The signature, restated: the gold horizon runs edge to edge behind the tour */
+.lightbox > .horizon {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  margin: 0;
+  transform: translateY(-50%);
+}
+.lightbox-panel {
+  position: relative;
+  width: 100%;
+  padding-inline: 0.75rem;
+}
+@media (min-width: 48em) {
+  /* Fit a 16/9 frame to the viewport without letterboxing */
+  .lightbox-panel { width: min(94vw, calc((100dvh - 8rem) * 16 / 9)); padding-inline: 0; }
+}
+.lightbox-media {
+  width: 100%;
+  height: calc(100dvh - 7.5rem); /* phones: fill the viewport minus the close-button band */
+  background: var(--ink);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-crossing);
+}
+@media (min-width: 48em) {
+  .lightbox-media { height: auto; aspect-ratio: 16 / 9; }
+}
+.lightbox-media iframe { width: 100%; height: 100%; border: 0; }
+.lightbox-close {
+  position: absolute;
+  top: -3.25rem;
+  right: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1.5px solid rgba(167, 183, 194, 0.45);
+  border-radius: 999px;
+  background: var(--night);
+  color: var(--daylight);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  cursor: pointer;
+}
+@media (min-width: 48em) { .lightbox-close { right: 0; } }
+.lightbox-close:hover { border-color: var(--gold); color: var(--gold); }
+.lightbox-close svg { width: 1rem; height: 1rem; }
+
 /* ---------- Contact ---------- */
+.calendly-card {
+  background: var(--white);
+  border: 1px solid rgba(90, 107, 120, 0.18);
+  border-top: 2px solid var(--gold);
+  border-radius: var(--radius-card);
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+  box-shadow: var(--shadow-crossing);
+}
 .calendly-wrap { min-height: 700px; }
+.demos-crossing { --crossing-depth: 9rem; padding-bottom: var(--space-section); }
+.contact-crossing { --crossing-depth: 10rem; padding-bottom: var(--space-section); }
 .contact-alt { max-width: 44rem; }
 .contact-alt a { color: var(--ink); font-weight: 600; text-decoration-color: var(--gold); text-decoration-thickness: 2px; }
 .next-steps { max-width: 44rem; }

@@ -39,38 +39,42 @@
         <a href="demos.html">Our work</a>
         <a href="index.html#pricing">Pricing</a>
         <a href="contact.html" aria-current="page">Contact</a>
-        <a href="contact.html" class="btn btn-primary">Book a tour</a>
+        <a href="contact.html" class="btn">Book a tour</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">Contact</p>
-          <h1>Book your 360° tour</h1>
-          <p class="lede">Pick a time below — scheduling takes about two minutes. Tours from $125, delivered within 48 hours of the shoot.</p>
-        </div>
-
-        <!-- Calendly mounts here; the referral flow in js/main.js builds the URL.
-             Keep this id — the script keys off it. -->
-        <div id="calendly-container" class="calendly-wrap">
-          <noscript>
-            <p>The scheduler needs JavaScript. You can also book directly at
-              <a href="https://calendly.com/nahomg116/30min">calendly.com/nahomg116/30min</a>,
-              or use the email/phone below.</p>
-          </noscript>
-        </div>
+    <section class="hero zone-night">
+      <div class="container hero-copy">
+        <p class="eyebrow">Contact</p>
+        <h1>Book your 360° tour</h1>
+        <p class="lede">Pick a time below — scheduling takes about two minutes. Tours from $125, delivered within 48 hours of the shoot.</p>
       </div>
     </section>
 
+    <!-- Third crossing: the booking card straddles Night → Daylight -->
+    <div class="crossing contact-crossing">
+      <hr class="horizon" aria-hidden="true">
+      <div class="container">
+        <div class="calendly-card">
+          <!-- Calendly mounts here; the referral flow in js/main.js builds the URL.
+               Keep this id — the script keys off it. -->
+          <div id="calendly-container" class="calendly-wrap">
+            <noscript>
+              <p>The scheduler needs JavaScript. You can also book directly at
+                <a href="https://calendly.com/nahomg116/30min">calendly.com/nahomg116/30min</a>,
+                or use the email/phone below.</p>
+            </noscript>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <section class="section">
       <div class="container contact-alt">
-        <div class="section-head">
-          <h2>Prefer not to use a scheduler?</h2>
-        </div>
-        <p>Email <a href="mailto:nahomg116@gmail.com?subject=Virtual%20Tour">nahomg116@gmail.com</a> or call/text <a href="tel:+15073519348">(507) 351-9348</a> — tell us the property type, rough size, and where it is, and we'll take it from there.</p>
+        <h2>Prefer not to use a scheduler?</h2>
+        <p style="margin-top: 1rem;">Email <a href="mailto:nahomg116@gmail.com?subject=Virtual%20Tour">nahomg116@gmail.com</a> or call/text <a href="tel:+15073519348">(507) 351-9348</a> — tell us the property type, rough size, and where it is, and we'll take it from there.</p>
       </div>
     </section>
 
@@ -82,14 +86,17 @@
         </div>
         <ol class="steps" role="list">
           <li class="step">
+            <p class="num-display" aria-hidden="true">1</p>
             <h3>We confirm the details</h3>
             <p>You'll get a confirmation right away, and we'll reach out before the shoot to confirm access and anything specific to your property.</p>
           </li>
           <li class="step">
+            <p class="num-display" aria-hidden="true">2</p>
             <h3>The shoot — under an hour</h3>
             <p>No prep needed beyond a tidy space. We capture every room in 360°.</p>
           </li>
           <li class="step">
+            <p class="num-display" aria-hidden="true">3</p>
             <h3>Your tour link — within 48 hours</h3>
             <p>A hosted link ready to drop into Zillow, Apartments.com, Airbnb, or anywhere else. No software, no subscriptions.</p>
           </li>
@@ -98,38 +105,41 @@
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <a href="index.html" class="footer-brand">
-            <svg viewBox="0 0 33 33" aria-hidden="true" focusable="false">
-              <path d="M28,0H5C2.24,0,0,2.24,0,5v23c0,2.76,2.24,5,5,5h23c2.76,0,5-2.24,5-5V5c0-2.76-2.24-5-5-5ZM29,17c-6.63,0-12,5.37-12,12h-1c0-6.63-5.37-12-12-12v-1c6.63,0,12-5.37,12-12h1c0,6.63,5.37,12,12,12v1Z" fill="currentColor"></path>
-            </svg>
-            OpenView Virtual Tours
-          </a>
-          <p class="footer-tag">360° virtual tours for apartments, Airbnbs, and home listings across Minnesota.</p>
+  <!-- Closing zone -->
+  <div class="closing zone-night">
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <a href="index.html" class="footer-brand">
+              <svg viewBox="0 0 33 33" aria-hidden="true" focusable="false">
+                <path d="M28,0H5C2.24,0,0,2.24,0,5v23c0,2.76,2.24,5,5,5h23c2.76,0,5-2.24,5-5V5c0-2.76-2.24-5-5-5ZM29,17c-6.63,0-12,5.37-12,12h-1c0-6.63-5.37-12-12-12v-1c6.63,0,12-5.37,12-12h1c0,6.63,5.37,12,12,12v1Z" fill="currentColor"></path>
+              </svg>
+              OpenView Virtual Tours
+            </a>
+            <p class="footer-tag">360° virtual tours for apartments, Airbnbs, and home listings across Minnesota.</p>
+          </div>
+          <div class="footer-col">
+            <h2>Site</h2>
+            <ul role="list">
+              <li><a href="demos.html">Our work</a></li>
+              <li><a href="index.html#pricing">Pricing</a></li>
+              <li><a href="index.html#faq">FAQ</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h2>Connect</h2>
+            <ul role="list">
+              <li><a href="mailto:nahomg116@gmail.com?subject=Virtual%20Tour">nahomg116@gmail.com</a></li>
+              <li><a href="tel:+15073519348">(507) 351-9348</a></li>
+            </ul>
+          </div>
         </div>
-        <div class="footer-col">
-          <h2>Site</h2>
-          <ul role="list">
-            <li><a href="demos.html">Our work</a></li>
-            <li><a href="index.html#pricing">Pricing</a></li>
-            <li><a href="index.html#faq">FAQ</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h2>Connect</h2>
-          <ul role="list">
-            <li><a href="mailto:nahomg116@gmail.com?subject=Virtual%20Tour">nahomg116@gmail.com</a></li>
-            <li><a href="tel:+15073519348">(507) 351-9348</a></li>
-          </ul>
-        </div>
+        <div class="footer-legal">© 2026 OpenView Virtual Tours · Mankato, Minnesota</div>
       </div>
-      <div class="footer-legal">© 2026 OpenView Virtual Tours · Mankato, Minnesota</div>
-    </div>
-  </footer>
+    </footer>
+  </div>
 
   <script src="js/main.js" defer></script>
 </body>

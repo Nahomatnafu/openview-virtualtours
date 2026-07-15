@@ -39,27 +39,30 @@
         <a href="demos.html" aria-current="page">Our work</a>
         <a href="index.html#pricing">Pricing</a>
         <a href="contact.html">Contact</a>
-        <a href="contact.html" class="btn btn-primary">Book a tour</a>
+        <a href="contact.html" class="btn">Book a tour</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">Our work</p>
-          <h1>Real tours. Click in and look around.</h1>
-          <p class="lede">Every tour below is live — tap one to walk the space the way your renters and buyers would.</p>
-        </div>
-
+    <section class="hero zone-night">
+      <div class="container hero-copy">
+        <p class="eyebrow">Our work</p>
+        <h1>Real tours. Click in and look around.</h1>
+        <p class="lede">Every tour below is live — tap one to open it full screen and walk the space the way your renters and buyers would.</p>
         <div class="filter-chips" role="group" aria-label="Filter tours by property type">
           <button class="chip" data-filter="all" aria-pressed="true">All</button>
           <button class="chip" data-filter="apartments" aria-pressed="false">Apartment complexes</button>
           <button class="chip" data-filter="airbnb" aria-pressed="false">Airbnbs &amp; short-term rentals</button>
           <button class="chip" data-filter="homes" aria-pressed="false">Homes for sale</button>
         </div>
+      </div>
+    </section>
 
+    <!-- The featured tour crosses the seam out of the dark head zone -->
+    <div class="crossing demos-crossing">
+      <hr class="horizon" aria-hidden="true">
+      <div class="container">
         <div class="tour-grid" data-tour-grid>
 
           <!-- Featured: the apartment complex project — exterior plus 20 unit interiors.
@@ -68,16 +71,16 @@
           <article class="tour-card is-featured" data-category="apartments">
             <div class="tour-media">
               <img src="images/VirtualTour_03-p-1080.jpg"
-                   srcset="images/VirtualTour_03-p-800.jpg 800w, images/VirtualTour_03-p-1600.jpg 1600w, images/VirtualTour_03-p-2600.jpg 2600w"
-                   sizes="(max-width: 767px) 100vw, 1100px"
+                   srcset="images/VirtualTour_03-p-800.jpg 800w, images/VirtualTour_03-p-1080.jpg 1080w, images/VirtualTour_03-p-1600.jpg 1600w, images/VirtualTour_03-p-2600.jpg 2600w"
+                   sizes="(max-width: 767px) 100vw, min(92vw, 1060px)"
                    alt="Panoramic interior view from the apartment complex virtual tour"
-                   loading="lazy" width="1600" height="640">
+                   loading="lazy" width="1600" height="686">
               <a class="tour-load"
                  href="https://kuula.co/share/collection/7DjMW?logo=0&amp;info=0&amp;fs=1&amp;vr=1&amp;sd=1&amp;initload=0&amp;thumbs=1"
                  data-tour-url="https://kuula.co/share/collection/7DjMW?logo=0&amp;info=0&amp;fs=1&amp;vr=1&amp;sd=1&amp;initload=0&amp;thumbs=1"
                  data-tour-title="360° tour — apartment complex exterior and grounds">
                 <span class="play-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-                Load 360° tour
+                Open 360° tour
               </a>
             </div>
             <div class="tour-caption">
@@ -91,7 +94,7 @@
             <div class="tour-media">
               <img src="images/VirtualTour_01-p-800.jpg"
                    srcset="images/VirtualTour_01-p-500.jpg 500w, images/VirtualTour_01-p-800.jpg 800w, images/VirtualTour_01-p-1080.jpg 1080w"
-                   sizes="(max-width: 767px) 100vw, 540px"
+                   sizes="(max-width: 767px) 100vw, min(46vw, 525px)"
                    alt="Living area from an apartment unit virtual tour"
                    loading="lazy" width="1080" height="675">
               <a class="tour-load"
@@ -99,7 +102,7 @@
                  data-tour-url="https://kuula.co/share/collection/7TbL3?logo=1&amp;info=1&amp;fs=1&amp;vr=0&amp;sd=1&amp;thumbs=1"
                  data-tour-title="360° tour — apartment unit interior">
                 <span class="play-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-                Load 360° tour
+                Open 360° tour
               </a>
             </div>
             <div class="tour-caption">
@@ -113,7 +116,7 @@
             <div class="tour-media">
               <img src="images/VirtualTour_04-p-800.jpg"
                    srcset="images/VirtualTour_04-p-500.jpg 500w, images/VirtualTour_04-p-800.jpg 800w, images/VirtualTour_04-p-1080.jpg 1080w"
-                   sizes="(max-width: 767px) 100vw, 540px"
+                   sizes="(max-width: 767px) 100vw, min(46vw, 525px)"
                    alt="Interior view from an apartment unit virtual tour"
                    loading="lazy" width="1080" height="675">
               <a class="tour-load"
@@ -121,7 +124,7 @@
                  data-tour-url="https://kuula.co/share/collection/7TbLb?logo=1&amp;info=1&amp;fs=1&amp;vr=0&amp;sd=1&amp;thumbs=1"
                  data-tour-title="360° tour — apartment unit interior">
                 <span class="play-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-                Load 360° tour
+                Open 360° tour
               </a>
             </div>
             <div class="tour-caption">
@@ -135,7 +138,7 @@
             <div class="tour-media">
               <img src="images/VirtualTour_03-p-800.jpg"
                    srcset="images/VirtualTour_03-p-500.jpg 500w, images/VirtualTour_03-p-800.jpg 800w, images/VirtualTour_03-p-1080.jpg 1080w"
-                   sizes="(max-width: 767px) 100vw, 540px"
+                   sizes="(max-width: 767px) 100vw, min(46vw, 525px)"
                    alt="Bedroom from an apartment unit virtual tour"
                    loading="lazy" width="1080" height="675">
               <a class="tour-load"
@@ -143,7 +146,7 @@
                  data-tour-url="https://kuula.co/share/collection/7TZLY?logo=1&amp;info=1&amp;fs=1&amp;vr=0&amp;sd=1&amp;thumbs=1"
                  data-tour-title="360° tour — apartment unit interior">
                 <span class="play-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-                Load 360° tour
+                Open 360° tour
               </a>
             </div>
             <div class="tour-caption">
@@ -159,8 +162,11 @@
           No tours in this category yet — yours could be the first. <a href="contact.html">Book a shoot</a> and we'll put your property here.
         </p>
       </div>
-    </section>
+    </div>
+  </main>
 
+  <!-- Closing zone -->
+  <div class="closing zone-night">
     <section class="section cta-final">
       <div class="container">
         <h2>Want your property here?</h2>
@@ -168,40 +174,52 @@
         <a href="contact.html" class="btn btn-primary">Book a tour</a>
       </div>
     </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <a href="index.html" class="footer-brand">
-            <svg viewBox="0 0 33 33" aria-hidden="true" focusable="false">
-              <path d="M28,0H5C2.24,0,0,2.24,0,5v23c0,2.76,2.24,5,5,5h23c2.76,0,5-2.24,5-5V5c0-2.76-2.24-5-5-5ZM29,17c-6.63,0-12,5.37-12,12h-1c0-6.63-5.37-12-12-12v-1c6.63,0,12-5.37,12-12h1c0,6.63,5.37,12,12,12v1Z" fill="currentColor"></path>
-            </svg>
-            OpenView Virtual Tours
-          </a>
-          <p class="footer-tag">360° virtual tours for apartments, Airbnbs, and home listings across Minnesota.</p>
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <a href="index.html" class="footer-brand">
+              <svg viewBox="0 0 33 33" aria-hidden="true" focusable="false">
+                <path d="M28,0H5C2.24,0,0,2.24,0,5v23c0,2.76,2.24,5,5,5h23c2.76,0,5-2.24,5-5V5c0-2.76-2.24-5-5-5ZM29,17c-6.63,0-12,5.37-12,12h-1c0-6.63-5.37-12-12-12v-1c6.63,0,12-5.37,12-12h1c0,6.63,5.37,12,12,12v1Z" fill="currentColor"></path>
+              </svg>
+              OpenView Virtual Tours
+            </a>
+            <p class="footer-tag">360° virtual tours for apartments, Airbnbs, and home listings across Minnesota.</p>
+          </div>
+          <div class="footer-col">
+            <h2>Site</h2>
+            <ul role="list">
+              <li><a href="demos.html">Our work</a></li>
+              <li><a href="index.html#pricing">Pricing</a></li>
+              <li><a href="index.html#faq">FAQ</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h2>Connect</h2>
+            <ul role="list">
+              <li><a href="mailto:nahomg116@gmail.com?subject=Virtual%20Tour">nahomg116@gmail.com</a></li>
+              <li><a href="tel:+15073519348">(507) 351-9348</a></li>
+            </ul>
+          </div>
         </div>
-        <div class="footer-col">
-          <h2>Site</h2>
-          <ul role="list">
-            <li><a href="demos.html">Our work</a></li>
-            <li><a href="index.html#pricing">Pricing</a></li>
-            <li><a href="index.html#faq">FAQ</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h2>Connect</h2>
-          <ul role="list">
-            <li><a href="mailto:nahomg116@gmail.com?subject=Virtual%20Tour">nahomg116@gmail.com</a></li>
-            <li><a href="tel:+15073519348">(507) 351-9348</a></li>
-          </ul>
-        </div>
+        <div class="footer-legal">© 2026 OpenView Virtual Tours · Mankato, Minnesota</div>
       </div>
-      <div class="footer-legal">© 2026 OpenView Virtual Tours · Mankato, Minnesota</div>
+    </footer>
+  </div>
+
+  <!-- Full-viewport tour lightbox. The gold horizon runs behind the frame — the signature restated. -->
+  <div class="lightbox" id="tour-lightbox" hidden>
+    <div class="lightbox-backdrop" data-lightbox-close></div>
+    <hr class="horizon" aria-hidden="true">
+    <div class="lightbox-panel" role="dialog" aria-modal="true" aria-label="360° virtual tour viewer">
+      <button class="lightbox-close" type="button" data-lightbox-close>
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Close
+      </button>
+      <div class="lightbox-media" data-lightbox-media></div>
     </div>
-  </footer>
+  </div>
 
   <script src="js/main.js" defer></script>
 </body>

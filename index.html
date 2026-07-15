@@ -53,23 +53,26 @@
         <a href="demos.html">Our work</a>
         <a href="index.html#pricing">Pricing</a>
         <a href="contact.html">Contact</a>
-        <a href="contact.html" class="btn btn-primary">Book a tour</a>
+        <a href="contact.html" class="btn">Book a tour</a>
       </nav>
     </div>
   </header>
 
   <main>
 
-    <section class="hero" data-hero-reveal>
-      <div class="container hero-copy">
-        <h1>360° virtual tours that rent units faster.</h1>
-        <p class="lede">OpenView shoots interactive virtual tours for apartment complexes, Airbnbs, and home listings across Minnesota. Renters and buyers walk the space online first — so the showings you do host are the serious ones.</p>
-        <div class="hero-actions">
-          <a href="contact.html" class="btn btn-primary">Book a tour — from $125</a>
-          <a href="demos.html" class="btn btn-ghost">See our work</a>
+    <!-- The signature: dark sky above, daylight below, the live tour crossing the gold horizon -->
+    <div data-hero-reveal>
+      <section class="hero zone-night">
+        <div class="container hero-copy">
+          <h1>360° virtual tours that rent units faster.</h1>
+          <p class="lede">OpenView shoots interactive virtual tours for apartment complexes, Airbnbs, and home listings across Minnesota. Renters and buyers walk the space online first — so the showings you do host are the serious ones.</p>
+          <div class="hero-actions">
+            <a href="contact.html" class="btn btn-primary">Book a tour — from $125</a>
+            <a href="demos.html" class="btn btn-ghost">See our work</a>
+          </div>
         </div>
-      </div>
-      <div class="hero-tour-wrap">
+      </section>
+      <div class="crossing hero-crossing">
         <hr class="horizon" aria-hidden="true">
         <div class="container">
           <div class="tour-frame">
@@ -85,7 +88,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
     <section class="section">
       <div class="container">
@@ -95,17 +98,17 @@
         </div>
         <div class="benefits">
           <div class="benefit">
-            <p class="benefit-num">01</p>
+            <p class="num-display">01</p>
             <h3>Fewer wasted showings</h3>
             <p>People who've already walked the unit online only book in person when they're serious. You stop giving tours to window-shoppers.</p>
           </div>
           <div class="benefit">
-            <p class="benefit-num">02</p>
+            <p class="num-display">02</p>
             <h3>Listings move faster</h3>
             <p>A 360° tour answers the questions photos can't — layout, flow, real room sizes. Renters commit sooner because they've already seen it.</p>
           </div>
           <div class="benefit">
-            <p class="benefit-num">03</p>
+            <p class="num-display">03</p>
             <h3>One link, everywhere</h3>
             <p>Your tour lives at a single hosted link. Drop it in Zillow, Apartments.com, Airbnb, Facebook — it works on any phone or laptop.</p>
           </div>
@@ -113,15 +116,17 @@
       </div>
     </section>
 
+    <!-- The page looks around: a wrapping panorama strip. Static under reduced motion. -->
     <div class="pano-band">
-      <img src="images/VirtualTour_03-p-1600.jpg"
-           srcset="images/VirtualTour_03-p-800.jpg 800w, images/VirtualTour_03-p-1600.jpg 1600w, images/VirtualTour_03-p-2600.jpg 2600w, images/VirtualTour_03-p-3200.jpg 3200w"
-           sizes="100vw"
-           alt="Wide panoramic view of a furnished apartment interior captured for a 360° tour"
-           loading="lazy" width="3200" height="1280">
+      <div class="pano-track">
+        <img src="images/VirtualTour_03-p-2000.jpg"
+             alt="Wide panoramic view of a furnished apartment interior captured for a 360° tour"
+             loading="lazy" width="2000" height="800">
+        <img src="images/VirtualTour_03-p-2000.jpg" alt="" aria-hidden="true" loading="lazy" width="2000" height="800">
+      </div>
     </div>
 
-    <section class="section">
+    <section class="section zone-night">
       <div class="container">
         <div class="section-head">
           <p class="eyebrow">How it works</p>
@@ -129,28 +134,30 @@
         </div>
         <ol class="steps" role="list">
           <li class="step">
-            <h3>1. Book online</h3>
+            <p class="num-display" aria-hidden="true">1</p>
+            <h3>Book online</h3>
             <p>Pick a time that works — scheduling takes about two minutes.</p>
           </li>
           <li class="step">
-            <h3>2. We shoot</h3>
+            <p class="num-display" aria-hidden="true">2</p>
+            <h3>We shoot</h3>
             <p>Most properties take under an hour on site. No prep needed beyond a tidy space.</p>
           </li>
           <li class="step">
-            <h3>3. Tour delivered</h3>
+            <p class="num-display" aria-hidden="true">3</p>
+            <h3>Tour delivered</h3>
             <p>Your hosted tour link arrives within 48 hours, ready to share or embed anywhere.</p>
           </li>
         </ol>
       </div>
     </section>
 
-    <section class="section" id="pricing">
+    <!-- Second crossing: the pricing card straddles Night → Daylight -->
+    <div class="crossing" id="pricing">
+      <hr class="horizon" aria-hidden="true">
       <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">Pricing</p>
-          <h2>Simple, upfront pricing</h2>
-        </div>
         <div class="pricing-card">
+          <p class="eyebrow">Pricing</p>
           <p class="price">Tours from $125</p>
           <p class="price-note">Per property, one-time — no subscriptions, ever.</p>
           <ul class="includes" role="list">
@@ -165,35 +172,41 @@
           <a href="contact.html" class="btn btn-primary">Book a tour</a>
         </div>
       </div>
-    </section>
+    </div>
 
     <section class="section" id="faq">
       <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">FAQ</p>
-          <h2>Common questions</h2>
-        </div>
-        <div class="faq-list">
-          <details>
-            <summary>What is a 360° virtual tour?</summary>
-            <p>An interactive online walkthrough of a property. Viewers look around each room as if they're standing in it — perfect for rental listings, Airbnbs, and homes for sale.</p>
-          </details>
-          <details>
-            <summary>How long does it take?</summary>
-            <p>Most properties take under an hour to capture. Your completed tour link is delivered within 48 hours.</p>
-          </details>
-          <details>
-            <summary>Do I need any equipment or software?</summary>
-            <p>No. We handle capture, editing, and hosting, and you get a simple link that works in any browser — nothing to install.</p>
-          </details>
-          <details>
-            <summary>What areas do you serve?</summary>
-            <p>We're based in Mankato and shoot across Minnesota — Minneapolis, St. Paul, Rochester, Duluth, and everywhere between. Not sure if you're in range? Just ask.</p>
-          </details>
+        <div class="faq-grid">
+          <div class="section-head">
+            <p class="eyebrow">FAQ</p>
+            <h2>Common questions</h2>
+          </div>
+          <div class="faq-list">
+            <details>
+              <summary>What is a 360° virtual tour?</summary>
+              <p>An interactive online walkthrough of a property. Viewers look around each room as if they're standing in it — perfect for rental listings, Airbnbs, and homes for sale.</p>
+            </details>
+            <details>
+              <summary>How long does it take?</summary>
+              <p>Most properties take under an hour to capture. Your completed tour link is delivered within 48 hours.</p>
+            </details>
+            <details>
+              <summary>Do I need any equipment or software?</summary>
+              <p>No. We handle capture, editing, and hosting, and you get a simple link that works in any browser — nothing to install.</p>
+            </details>
+            <details>
+              <summary>What areas do you serve?</summary>
+              <p>We're based in Mankato and shoot across Minnesota — Minneapolis, St. Paul, Rochester, Duluth, and everywhere between. Not sure if you're in range? Just ask.</p>
+            </details>
+          </div>
         </div>
       </div>
     </section>
 
+  </main>
+
+  <!-- Closing zone: CTA and footer merged under the final seam -->
+  <div class="closing zone-night">
     <section class="section cta-final">
       <div class="container">
         <h2>Book your 360° tour</h2>
@@ -201,41 +214,39 @@
         <a href="contact.html" class="btn btn-primary">Book a tour — from $125</a>
       </div>
     </section>
-
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <a href="index.html" class="footer-brand">
-            <svg viewBox="0 0 33 33" aria-hidden="true" focusable="false">
-              <path d="M28,0H5C2.24,0,0,2.24,0,5v23c0,2.76,2.24,5,5,5h23c2.76,0,5-2.24,5-5V5c0-2.76-2.24-5-5-5ZM29,17c-6.63,0-12,5.37-12,12h-1c0-6.63-5.37-12-12-12v-1c6.63,0,12-5.37,12-12h1c0,6.63,5.37,12,12,12v1Z" fill="currentColor"></path>
-            </svg>
-            OpenView Virtual Tours
-          </a>
-          <p class="footer-tag">360° virtual tours for apartments, Airbnbs, and home listings across Minnesota.</p>
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <a href="index.html" class="footer-brand">
+              <svg viewBox="0 0 33 33" aria-hidden="true" focusable="false">
+                <path d="M28,0H5C2.24,0,0,2.24,0,5v23c0,2.76,2.24,5,5,5h23c2.76,0,5-2.24,5-5V5c0-2.76-2.24-5-5-5ZM29,17c-6.63,0-12,5.37-12,12h-1c0-6.63-5.37-12-12-12v-1c6.63,0,12-5.37,12-12h1c0,6.63,5.37,12,12,12v1Z" fill="currentColor"></path>
+              </svg>
+              OpenView Virtual Tours
+            </a>
+            <p class="footer-tag">360° virtual tours for apartments, Airbnbs, and home listings across Minnesota.</p>
+          </div>
+          <div class="footer-col">
+            <h2>Site</h2>
+            <ul role="list">
+              <li><a href="demos.html">Our work</a></li>
+              <li><a href="index.html#pricing">Pricing</a></li>
+              <li><a href="index.html#faq">FAQ</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h2>Connect</h2>
+            <ul role="list">
+              <li><a href="mailto:nahomg116@gmail.com?subject=Virtual%20Tour">nahomg116@gmail.com</a></li>
+              <li><a href="tel:+15073519348">(507) 351-9348</a></li>
+            </ul>
+          </div>
         </div>
-        <div class="footer-col">
-          <h2>Site</h2>
-          <ul role="list">
-            <li><a href="demos.html">Our work</a></li>
-            <li><a href="index.html#pricing">Pricing</a></li>
-            <li><a href="index.html#faq">FAQ</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h2>Connect</h2>
-          <ul role="list">
-            <li><a href="mailto:nahomg116@gmail.com?subject=Virtual%20Tour">nahomg116@gmail.com</a></li>
-            <li><a href="tel:+15073519348">(507) 351-9348</a></li>
-          </ul>
-        </div>
+        <div class="footer-legal">© 2026 OpenView Virtual Tours · Mankato, Minnesota</div>
       </div>
-      <div class="footer-legal">© 2026 OpenView Virtual Tours · Mankato, Minnesota</div>
-    </div>
-  </footer>
+    </footer>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   <script src="js/main.js" defer></script>
