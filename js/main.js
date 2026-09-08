@@ -8,9 +8,26 @@
   var navToggle = document.querySelector('.nav-toggle');
   var navLinks = document.querySelector('.nav-links');
   if (navToggle && navLinks) {
-    navToggle.addEventListener('click', function () {
-      var open = navLinks.classList.toggle('is-open');
+    var setNav = function (open) {
+      navLinks.classList.toggle('is-open', open);
       navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    navToggle.addEventListener('click', function () {
+      setNav(!navLinks.classList.contains('is-open'));
+    });
+    // Escape closes it, and so does following a link
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && navLinks.classList.contains('is-open')) {
+        setNav(false);
+        navToggle.focus();
+      }
+    });
+    navLinks.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setNav(false);
+    });
+    // Resizing past the drawer breakpoint must not leave a stale open state
+    window.matchMedia('(min-width: 40em)').addEventListener('change', function (e) {
+      if (e.matches) setNav(false);
     });
   }
 
@@ -52,33 +69,6 @@
     calendlyScript.src = 'https://assets.calendly.com/assets/external/widget.js';
     calendlyScript.async = true;
     document.body.appendChild(calendlyScript);
-  }
-
-  /* ---------- Portfolio: category filter (demos page) ---------- */
-  var tourGrid = document.querySelector('[data-tour-grid]');
-  if (tourGrid) {
-    var chips = document.querySelectorAll('.chip[data-filter]');
-    var cards = tourGrid.querySelectorAll('[data-category]');
-    var emptyState = document.querySelector('[data-filter-empty]');
-
-    chips.forEach(function (chip) {
-      chip.addEventListener('click', function () {
-        var filter = chip.getAttribute('data-filter');
-        var visible = 0;
-
-        chips.forEach(function (c) {
-          c.setAttribute('aria-pressed', c === chip ? 'true' : 'false');
-        });
-
-        cards.forEach(function (card) {
-          var hide = filter !== 'all' && card.getAttribute('data-category') !== filter;
-          card.hidden = hide;
-          if (!hide) visible++;
-        });
-
-        if (emptyState) emptyState.hidden = visible > 0;
-      });
-    });
   }
 
   /* ---------- Tour lightbox (demos page) ----------
@@ -139,7 +129,7 @@
       lastTrigger = null;
     };
 
-    document.querySelectorAll('a.tour-load[data-tour-url]').forEach(function (link) {
+    document.querySelectorAll('[data-lightbox-open][data-tour-url]').forEach(function (link) {
       link.addEventListener('click', function (event) {
         event.preventDefault();
         openLightbox(link.getAttribute('data-tour-url'), link.getAttribute('data-tour-title'), link);
@@ -151,26 +141,129 @@
     });
   }
 
-  /* ---------- Hero reveal — the one orchestrated GSAP moment (homepage) ----------
-     The horizon draws across, then the tour frame descends through it —
-     motion that explains the signature. GSAP is progressive enhancement:
-     content is fully visible without it. */
-  var hero = document.querySelector('[data-hero-reveal]');
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* ---------- Case study: the persistent tour viewer (work page) ----------
+     Every unit in the list is a real link to Kuula, so with JS off the page is
+     16 working tours. JS only upgrades navigation into an in-place swap.
 
-  if (hero && window.gsap && !reduceMotion) {
-    var tl = window.gsap.timeline({ defaults: { ease: 'power3.out' } });
-    tl.from(hero.querySelectorAll('.hero-copy > *'), {
-        y: 24, autoAlpha: 0, duration: 0.6, stagger: 0.09
-      })
-      .from(hero.querySelector('.hero-crossing .horizon'), {
-        scaleX: 0, transformOrigin: 'left center', duration: 0.5
-      }, '-=0.3')
-      .from(hero.querySelector('.tour-frame'), {
-        y: -44, autoAlpha: 0, duration: 0.65
-      }, '-=0.1')
-      .from(hero.querySelector('.drag-hint'), {
-        autoAlpha: 0, y: 8, duration: 0.4
-      }, '-=0.15');
+     Two things here are deliberate and easy to break:
+     1. We never assign to iframe.src after insertion. A cross-origin src
+        assignment pushes a history entry, so after browsing a few units the
+        Back button would walk backwards through iframe states instead of
+        leaving the page. Building a fresh <iframe> with src already set
+        creates no history entry.
+     2. We crossfade rather than unmount-then-mount. The new iframe is inserted
+        on top at opacity 0 and the old one is removed on its load event, with
+        the poster swapped synchronously underneath. No black flash, no reflow. */
+  var caseStudy = document.querySelector('[data-case-study]');
+  if (caseStudy) {
+    var frame = caseStudy.querySelector('[data-viewer-frame]');
+    var poster = caseStudy.querySelector('[data-viewer-poster]');
+    var facade = caseStudy.querySelector('[data-viewer-facade]');
+    var label = caseStudy.querySelector('[data-viewer-label]');
+    var expand = caseStudy.querySelector('[data-viewer-expand]');
+    var share = caseStudy.querySelector('[data-viewer-share]');
+    var unitLinks = caseStudy.querySelectorAll('.unit-link[data-tour-url]');
+    var buildingChips = caseStudy.querySelectorAll('.chip[data-building]');
+    var units = caseStudy.querySelectorAll('.unit[data-building]');
+    var pending = null;
+
+    // These controls only do anything with JS, so the markup ships them hidden
+    caseStudy.querySelectorAll('[data-js-only]').forEach(function (el) { el.hidden = false; });
+
+    var mount = function (url, title) {
+      /* Drop whatever is mounted straight away. The poster underneath has already
+         been swapped to this unit's own door, so it is the loading state — and a
+         Kuula embed can take several seconds to fire `load`. Holding the previous
+         tour on screen until then would show the wrong unit after a click, and any
+         embed the browser stops fetching would never be cleaned up at all. */
+      var mounted = frame.querySelectorAll('iframe');
+      for (var i = 0; i < mounted.length; i++) mounted[i].remove();
+
+      var next = document.createElement('iframe');
+      next.src = url;
+      next.title = title || '360° virtual tour';
+      next.setAttribute('allow', 'xr-spatial-tracking; gyroscope; accelerometer; fullscreen');
+      next.setAttribute('allowfullscreen', '');
+      pending = next;
+      next.addEventListener('load', function () {
+        if (pending !== next) { next.remove(); return; } // superseded by a faster click
+        next.classList.add('is-ready');                  // fades in over the poster
+        pending = null;
+      });
+      frame.appendChild(next);
+      if (facade) facade.hidden = true;
+    };
+
+    var select = function (link, updateHash) {
+      var url = link.getAttribute('data-tour-url');
+      var title = link.getAttribute('data-tour-title');
+      var text = link.getAttribute('data-label');
+
+      // Poster swaps first, so the frame shows the right door while the tour loads
+      if (poster && link.getAttribute('data-poster')) {
+        poster.src = link.getAttribute('data-poster');
+        poster.alt = '';
+      }
+      if (label) label.textContent = text;
+      if (expand) {
+        expand.setAttribute('data-tour-url', url);
+        expand.setAttribute('data-tour-title', title);
+      }
+      if (share) {
+        share.href = url.split('?')[0];
+        share.textContent = 'Open ' + text.split(' — ')[0] + ' on its own link';
+      }
+
+      unitLinks.forEach(function (l) {
+        if (l === link) { l.setAttribute('aria-current', 'true'); }
+        else { l.removeAttribute('aria-current'); }
+      });
+
+      mount(url, title);
+
+      // replaceState, never pushState — same reason we rebuild the iframe node
+      var li = link.closest('.unit');
+      if (updateHash && li && li.id && window.history.replaceState) {
+        window.history.replaceState(null, '', '#' + li.id);
+      }
+    };
+
+    unitLinks.forEach(function (link) {
+      link.addEventListener('click', function (event) {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+        event.preventDefault();
+        select(link, true);
+      });
+    });
+
+    // The facade starts the featured tour inline; the Full screen button opens the overlay
+    if (facade) {
+      facade.addEventListener('click', function (event) {
+        event.preventDefault();
+        mount(facade.getAttribute('data-tour-url'), facade.getAttribute('data-tour-title'));
+      });
+    }
+
+    /* Filtering hides list items only. If the unit currently playing is filtered
+       out it keeps playing — destroying a tour someone is dragging because they
+       clicked a filter would be the worst bug on this page. */
+    buildingChips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var want = chip.getAttribute('data-building');
+        buildingChips.forEach(function (c) {
+          c.setAttribute('aria-pressed', c === chip ? 'true' : 'false');
+        });
+        units.forEach(function (unit) {
+          unit.hidden = want !== 'all' && unit.getAttribute('data-building') !== want;
+        });
+      });
+    });
+
+    // Deep link: /work#unit-232W opens that unit directly
+    if (window.location.hash) {
+      var target = caseStudy.querySelector(window.location.hash + ' .unit-link');
+      if (target) select(target, false);
+    }
   }
+
 })();
