@@ -144,7 +144,7 @@
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       const data = new FormData(form);
-      const body = `Hi Nahom,\n\nI’d like to arrange a 360° tour.\n\nName: ${data.get("name")}\nPreferred date: ${data.get("date")}\nProperty: ${data.get("property")}\nDetails: ${data.get("details") || "None added"}${ref ? `\nReferral: ${ref}` : ""}\n\nPlease confirm availability and pricing. Thank you!`;
+      const body = `Hello OpenView,\n\nI’d like to arrange a 360° tour.\n\nName: ${data.get("name")}\nPreferred date: ${data.get("date")}\nProperty: ${data.get("property")}\nDetails: ${data.get("details") || "None added"}${ref ? `\nReferral: ${ref}` : ""}\n\nPlease confirm availability and pricing. Thank you!`;
       const url = `mailto:openviewhomesmn@gmail.com?subject=${encodeURIComponent("360° tour — shoot date request")}&body=${encodeURIComponent(body)}`;
       const status = document.querySelector("#request-status");
       status.replaceChildren(
@@ -154,7 +154,7 @@
       );
       const retry = document.createElement("a");
       retry.href = url;
-      retry.textContent = "Open the email draft again ↗";
+      retry.textContent = "Open the email draft again";
       status.append(retry);
       location.href = url;
     });
