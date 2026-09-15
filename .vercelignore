@@ -1,0 +1,5 @@
+.git
+.env*
+README.md
+openview-rebuild-prompt.md
+ASSET-SOURCES.md
