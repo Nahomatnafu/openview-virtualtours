@@ -554,6 +554,27 @@ em {
   font-size: 0.75rem;
   border-radius: 3px;
 }
+.platform-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 25px;
+}
+.platform-badges > span {
+  display: grid;
+  place-items: center;
+  min-height: 51px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: white;
+}
+.platform-badges img {
+  width: auto;
+  height: 24px;
+  max-width: 145px;
+  object-fit: contain;
+}
 .share-art {
   background: var(--blue);
 }

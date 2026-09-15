@@ -8,3 +8,6 @@
 - Eye logo: vector interpretation of the existing OpenView favicon.
 
 The Lightroom wordmark is a text label identifying the editing tool, not an endorsement.
+
+- Kuula logo: https://static.kuula.io/prod/assets/logo-blue.svg (official https://kuula.co/ header).
+- Matterport logo: https://images.ctfassets.net/icnj41gkyohw/4TFgKaRydiQc25X5NqOPon/a1726d6086793c5335b73fd41a06d52c/Matterport_Logo_-_Black_%C3%82_%C3%AF__.svg (official https://matterport.com/ header).
